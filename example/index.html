@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Language" content="fr">
+	
+		<meta name="language" content="en">
+		<meta name="designer" content="Buzzing Light">
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	
+		<title>Realtime Message Broker</title>
+
+		<script language="javascript" type='text/javascript' src="js/jquery.js"></script>
+		<script language="javascript" type='text/javascript' src="js/Network.js"></script>
+
+		<link href="css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="font/opensans.css" rel="stylesheet" type="text/css" />
+		<link href="js/animate.css" rel="stylesheet" type="text/css" />
+
+		<script language="javascript" type='text/javascript' src="js/index.js"></script>
+		<link href="css/index.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id='container'>
+			<h1>Realtime Message Broker</h1>
+			Realtime Message Broker is a message broker designed for realtime communication (OSC, HTTP, Websockets, Serial/Arduino) in creative technologies.
+			<h1>Message handling</h1>
+			<h2>Send messages</h2>
+			<div class='example'>
+				<div class='label'>This is the default behavior: the message will be sent in OSC (to 127.0.0.1:57130, the default port can be changed in <i send='/rtbroker/opensettings'>Settings</i> page). Spaces are the OSC arguments delimiters.</div>
+				<div class='code'>/destination This is a test 123</div><div class='websocketsSend button'>Send</div>
+			</div>
+			<div class='example'>
+				<div class='label'>This is the same as the previous example, but with explicit syntax</div>
+				<div class='code'>/osc 127.0.0.1 57130 /destination This is a test 123</div><div class='websocketsSend button'>Send</div>
+			</div>
+			<div class='example'>
+				<div class='label'>You can change the port for example. Let's try 4001, the <i send='/rtbroker/opensettings'>default OSC incoming port</i>, so the message will loopback in websockets because all OSC messages goes automaticaly into websockets.</div>
+				<div class='code'>/osc 127.0.0.1 4001 /destination This is a test 123</div><div class='websocketsSend button'>Send</div>
+			</div>
+			
+			<div class='example'>
+				<div class='label'>You can talk to other websockets clients (try to <a href='./' target='_blank'>open an other webpage instance</a> and send the message)</div>
+				<div class='code'>/websockets Speaking to all websockets!</div><div class='websocketsSend button'>Send</div>
+			</div>
+			<div class='example'>
+				<div class='label'>You can send and receive messages from <i send='/rtbroker/opensettings'>serial port</i> at 115200 bauds only (you can <a href='arduino/arduino.ino' target='_blank'>upload this example in your Arduino</a>)</div>
+				<div class='code'>/serial Arduino</div><div class='websocketsSend button'>Send</div>
+			</div>
+			<div class='example'>
+				<div class='label'>HTTP GET can also be useful (with curl to send OSC from command line for example)</div>
+				<div class='code'>http://127.0.0.1:5554/?protocol=/osc&ip=127.0.0.1&port=4001&destination=/fromhttp&valeur1=123&valeur2=Text&valeur3=456</div><div class='button'><a href='http://127.0.0.1:5554/?protocol=/osc&ip=127.0.0.1&port=4001&destination=/fromhttp&valeur1=123&valeur2=Text&valeur3=456' class='nounderline' target='_blank'>Open</a></div>
+			</div>
+			
+			<p>Finaly, try to send an OSC message from Max, PureData, Processing… to 127.0.0.1 on port 4001 (<i send='/rtbroker/opensettings'>default OSC incoming port</i>) and it should appear in the console</p>
+			
+			<p style='font-weight: 500;'>And remember, if you don't specify the protocol (/osc, /websockets…), all the incoming OSC messages will be prepended with <span class='code'>/websockets</span> and all the incoming Websockets, HTTP and Serial/Arduino messages will be prepended with <span class='code'>/osc 127.0.0.1 57130</span> (<i send='/rtbroker/opensettings'>default OSC out port</i>)</p>
+			
+			
+			<h2>Webhosting</h2>
+			Webpages (HTML, CSS, JS, no PHP nor MySQL) can be hosted like this page. Just drop a `index.html` in the app directory and click on <i send='/rtbroker/openwebpage'>Open hosted webpage</i> in the trayicon. Note that a page named <span class='code'>index.html</span> will be automaticaly opened on startup ; name it <span class='code'>index.htm</span> if you don't want this feature.
+			
+			<h2>Console</h2>
+			<div class='code' id='websocketsConsole'></div>
+		</div>
+	</body>
+</html>
+
+

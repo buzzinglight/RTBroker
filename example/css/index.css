@@ -1,0 +1,68 @@
+/*
+*	Balises standards
+*/
+html, body {
+	width: 			        100%;
+	height: 		        100%;
+	color:				    black;
+	text-align:				left;
+	background:				#F1F1F1;
+}
+html, body, input, label, select {
+	font-size:				14px;
+	font-family:			"OpenSans";
+	font-weight:			200;
+}
+
+#container {
+	margin:					30px;
+}
+.code {
+	font-family:			"Courier New", "Monaco";
+}
+#websocketsConsole .date {
+	opacity:				0.5;
+}
+.example {
+	margin:					0px 0px 20px 0px;
+}
+*[send], a[href]:not(.nounderline) {
+	text-decoration:		underline;
+	cursor:					pointer;
+}
+.example>.button, .example>.code {
+	display:				inline-block;
+}
+.example>.button {
+	margin-left:			10px;
+}
+h1 {
+	font-size:				25px;
+	font-weight:			400;
+	margin:					40px 0px 10px 0px;
+}
+h2 {
+	font-size:				18px;
+	font-weight:			400;
+	margin:					20px 0px 10px 0px;
+	text-transform:			uppercase;
+}
+p {
+	margin:					20px 0px 20px 0px;
+}
+.button {
+	background:				#F93143;
+	color:					white;
+	text-transform:			uppercase;
+	font-weight:			400;
+	padding:				5px 10px 5px 10px;
+	display:				inline-block;
+	border-radius:			5px;
+	border:					1px solid transparent;
+	margin-top:				5px;
+	cursor:					pointer;
+}
+.button:hover {
+	color:					white;
+	background:				#246DAC;
+}
