@@ -2,9 +2,9 @@
 *Realtime Message Broker* is a message broker designed for realtime communication (OSC, HTTP, Websockets, Serial/Arduino) in creative technologies.
 
 # Syntax
-All the messages adressed to the broker must start with
+All the messages adressed to the broker must start with :
 - `/osc <IP dest> <Port number dest> <OSC adress> <OSC arg1> <OSC arg2>…` to send message through OSC packet
-- `/http <IP dest> <Port number dest> <HTTP GET arg1> <HTTP GET arg2>` to send an HTTP Get message *not yet working*
+- `/http <IP dest> <Port number dest> <HTTP GET arg1> <HTTP GET arg2>` to send an HTTP Get message **not yet working**
 - `/serial <data>` to send message through Serial/Arduino interface
 - `/websockets <data>` to send message to all websockets clients
 
