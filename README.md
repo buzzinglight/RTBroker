@@ -5,7 +5,7 @@
 All the messages adressed to the broker must start with :
 - `/osc <IP dest> <Port number dest> <OSC adress> <OSC arg1> <OSC arg2>…` to send message through OSC packet
 - `/http <IP dest> <Port number dest> <HTTP GET arg1> <HTTP GET arg2>` to send an HTTP Get message **not yet working**
-- `/serial <data>` to send message through Serial/Arduino interface
+- `/serial <data>` to send message through Serial/Arduino interface (115200 bauds)
 - `/websockets <data>` to send message to all websockets clients
 
 # Default syntax
