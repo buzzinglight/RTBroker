@@ -30,21 +30,18 @@ RequestMapper::RequestMapper(QObject *parent)
 void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     QString path = QString(request.getPath());//.normalized(QString::NormalizationForm_D);
     request.path = qPrintable(path);
-    /*
-     * TODO
-    if(!request.getParameter("redirect").isEmpty()) {
-        qint16 playerId = request.getParameter("redirect").toInt();
-        response.setHeader("Content-Type", "text/plain");
-        QString retourUrl;
-        if(playerId < Global::deuxMi->typoringPlayers.count()) {
-            retourUrl = Global::deuxMi->typoringPlayers.at(playerId).url;
-            if((retourUrl != "typoring_wait") && (retourUrl != "typoring_win") && (retourUrl != "typoring_lost"))
-                Global::deuxMi->typoringPlayers[playerId].url.clear();
+    if(!request.getParameter("file").isEmpty()) {
+        QFileInfo filename = QFileInfo(request.getParameter("file"));
+        //qDebug("—> %s | %s (%d)", qPrintable(request.getParameter("file")), qPrintable(filename.absoluteFilePath()), filename.exists());
+        if(filename.exists()) {
+            QFile file(filename.absoluteFilePath());
+            if(file.open(QFile::ReadOnly)) {
+                response.write(file.readAll(), true);
+            }
         }
-        response.write(retourUrl.toUtf8(), true);
         return;
     }
-    */
+
     //Chemin normal
     path = request.getPath();
     request.path = request.path.replace("/www", "");

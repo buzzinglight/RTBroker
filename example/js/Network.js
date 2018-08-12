@@ -142,3 +142,5 @@ function websocketChanged(websocket) {
         }
     }
 }
+String.prototype.replaceAll = function(str, str2)
+	{ return (this.replace(new RegExp(str, 'g'), str2)) }
