@@ -2,8 +2,8 @@
     This file is part of RTBroker.
     Made by Buzzing Light 2013-2015
 
-    Project Manager: Clarisse Bardiot
-    Development & interactive design: Guillaume Jacquemin & Guillaume Marais (http://www.buzzinglight.com)
+    
+    
 
     This file was written by Guillaume Jacquemin.
 
@@ -31,14 +31,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     QString path = QString(request.getPath());//.normalized(QString::NormalizationForm_D);
     request.path = qPrintable(path);
     if(!request.getParameter("file").isEmpty()) {
-        QFileInfo filename = QFileInfo(request.getParameter("file"));
-        //qDebug("—> %s | %s (%d)", qPrintable(request.getParameter("file")), qPrintable(filename.absoluteFilePath()), filename.exists());
-        if(filename.exists()) {
-            QFile file(filename.absoluteFilePath());
-            if(file.open(QFile::ReadOnly)) {
-                response.write(file.readAll(), true);
-            }
-        }
+        request.path = request.getParameter("file");
+        Static::fileController->service(request, response, "");
         return;
     }
 

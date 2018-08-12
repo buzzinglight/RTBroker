@@ -2,8 +2,8 @@
     This file is part of RTBroker.
     Made by Buzzing Light 2013-2015
 
-    Project Manager: Clarisse Bardiot
-    Development & interactive design: Guillaume Jacquemin & Guillaume Marais (http://www.buzzinglight.com)
+    
+    
 
     This file was written by Guillaume Jacquemin.
 

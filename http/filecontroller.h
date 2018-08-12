@@ -2,8 +2,8 @@
     This file is part of RTBroker.
     Made by Buzzing Light 2013-2015
 
-    Project Manager: Clarisse Bardiot
-    Development & interactive design: Guillaume Jacquemin & Guillaume Marais (http://www.buzzinglight.com)
+
+
 
     This file was written by Guillaume Jacquemin.
 
@@ -43,6 +43,7 @@ class FileController : public HttpRequestHandler  {
 public:
     FileController(QSettings* settings, const QByteArray &_docroot, QObject* parent = 0);
     void service(HttpRequest& request, HttpResponse& response);
+    void service(HttpRequest& request, HttpResponse& response, const QByteArray &rootPath);
 
 private:
     QString encoding;

@@ -2,8 +2,8 @@
     This file is part of RTBroker.
     Made by Buzzing Light 2013-2015
 
-    Project Manager: Clarisse Bardiot
-    Development & interactive design: Guillaume Jacquemin & Guillaume Marais (http://www.buzzinglight.com)
+
+
 
     This file was written by Guillaume Jacquemin.
 
@@ -47,6 +47,10 @@ FileController::FileController(QSettings* settings, const QByteArray &_docroot, 
 
 
 void FileController::service(HttpRequest& request, HttpResponse& response) {
+    return service(request, response, docroot);
+}
+
+void FileController::service(HttpRequest& request, HttpResponse& response, const QByteArray &rootPath) {
     QByteArray path = request.getPath();
     bool debug = false;
 
@@ -103,11 +107,11 @@ void FileController::service(HttpRequest& request, HttpResponse& response) {
             return;
         }
         // If the filename is a directory, append index.html.
-        if (QFileInfo(docroot+path).isDir()) {
+        if (QFileInfo(rootPath + path).isDir()) {
             path += "/index.html";
         }
         // Try to open the file
-        path = docroot + path;
+        path = rootPath + path;
         if(!QFileInfo(path).exists()) {
             if(path.endsWith(".mp4")) {
                 QByteArray pathTmp = path.left(path.length()-4);
@@ -225,6 +229,8 @@ void FileController::setContentType(QString filename, HttpResponse& response) {
         response.setHeader("Content-Type", "image/jpeg");
     else if (filename.endsWith(".gif"))
         response.setHeader("Content-Type", "image/gif");
+    else if (filename.endsWith(".svg"))
+        response.setHeader("Content-Type", "image/svg+xml");
     else if (filename.endsWith(".pdf"))
         response.setHeader("Content-Type", "application/pdf");
     else if (filename.endsWith(".txt"))
