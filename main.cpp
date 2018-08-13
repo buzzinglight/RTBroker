@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 #endif
     QCoreApplication::setApplicationName   ("Realtime Message Broker");
-    QCoreApplication::setApplicationVersion("1.0");
+    QCoreApplication::setApplicationVersion("1.3");
     QCoreApplication::setOrganizationName  ("Buzzing Light");
     QCoreApplication::setOrganizationDomain("buzzinglight");
 
