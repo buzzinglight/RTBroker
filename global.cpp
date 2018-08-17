@@ -23,7 +23,7 @@
 #include "global.h"
 
 //Static variables
-MainWindowInterface* MainWindowInterface::main = 0;
+MainWindowInterface* MainWindowInterface::main = nullptr;
 QFileInfo MainWindowInterface::pathApplication;
 quint16 MainWindowInterface::defaultUdpPort = 0;
 quint16 MainWindowInterface::defaultHttpPort = 0;
@@ -100,8 +100,14 @@ const QString MainWindowInterface::dispatch(QVariantList message, const QVariant
         else if((protocol.contains("/websockets")) || (protocol.contains("/serial"))) {
             if(protocol.contains("/websockets"))
                 log += webSockets->send(message, "", 0, "", sender);
-            else if(protocol.contains("/serial"))
-                log += serial->send(message, "", 0, "", sender);
+            else if((protocol.contains("/serial")) || (protocol.contains("/serial1")))
+                log += serial1->send(message, "", 0, "", sender);
+            else if(protocol.contains("/serial2"))
+                log += serial2->send(message, "", 0, "", sender);
+            else if(protocol.contains("/serial3"))
+                log += serial3->send(message, "", 0, "", sender);
+            else if(protocol.contains("/serial4"))
+                log += serial4->send(message, "", 0, "", sender);
         }
     }
     return log;

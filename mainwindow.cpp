@@ -107,13 +107,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Ouverture des interfaces réseau
     udp  = new Udp(ui->oscInPort, this);
-    http = new InterfaceHttp(ui->httpInPort, this);
-    webSockets = new WebSockets(ui->httpWebSockets, this);
-    serial = new Serial(ui->serialPortName, this);
     connect((Udp*)udp,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    http = new InterfaceHttp(ui->httpInPort, this);
     connect((InterfaceHttp*)http,    SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    webSockets = new WebSockets(ui->httpWebSockets, this);
     connect((WebSockets*)webSockets, SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
-    connect((Serial*)serial,         SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    serial1 = new Serial(ui->serial1PortName, this);
+    connect((Serial*)serial1,        SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    serial2 = new Serial(ui->serial2PortName, this);
+    connect((Serial*)serial2,        SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    serial3 = new Serial(ui->serial3PortName, this);
+    connect((Serial*)serial3,        SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    serial4 = new Serial(ui->serial4PortName, this);
+    connect((Serial*)serial4,        SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
 
     //Interfaces complexes
     httpWeb = new Http(this);
@@ -140,22 +146,34 @@ void MainWindow::closeEvent(QCloseEvent *) {
 void MainWindow::readSettings() {
     guiIsChanging = true;
 
-    QStringList serialPorts = ((Serial*)serial)->getPorts();
-    ui->serialPortName->clear();
-    ui->serialPortName->addItems(serialPorts);
+    QStringList serialPorts = ((Serial*)serial1)->getPorts();
+    ui->serial1PortName->clear();
+    ui->serial2PortName->clear();
+    ui->serial3PortName->clear();
+    ui->serial4PortName->clear();
+    ui->serial1PortName->addItems(serialPorts);
+    ui->serial2PortName->addItems(serialPorts);
+    ui->serial3PortName->addItems(serialPorts);
+    ui->serial4PortName->addItems(serialPorts);
 
     QSettings settings;
     quint16 websocketsPort = settings.value("port_websocketsPort", 5553).toInt();
     quint16 httpPort       = settings.value("port_httpPort",       5554).toInt();
-    QString serialPort     = settings.value("port_serialPort",     "").toString();
+    QString serial1Port    = settings.value("port_serial1Port",    "").toString();
+    QString serial2Port    = settings.value("port_serial2Port",    "").toString();
+    QString serial3Port    = settings.value("port_serial3Port",    "").toString();
+    QString serial4Port    = settings.value("port_serial4Port",    "").toString();
     quint16 udpPort        = settings.value("port_udpPort",        4001).toInt();
     defaultUdpPort         = settings.value("port_defaultUdpPort", 57130).toInt();
-    //quint16 httpWebPort    = ui->httpWebInPort->value();//settings.value("port_httpWebPort", MainWindowInterface::defaultHttpPort).toInt();
+    //quint16 httpWebPort  = ui->httpWebInPort->value();//settings.value("port_httpWebPort", MainWindowInterface::defaultHttpPort).toInt();
     ui->oscInPort     ->setValue(udpPort);
     ui->defaultUdpPort->setValue(defaultUdpPort);
     ui->httpInPort    ->setValue(httpPort);
     ui->httpWebSockets->setValue(websocketsPort);
-    ui->serialPortName->setCurrentText(serialPort);
+    ui->serial1PortName->setCurrentText(serial1Port);
+    ui->serial2PortName->setCurrentText(serial2Port);
+    ui->serial3PortName->setCurrentText(serial3Port);
+    ui->serial4PortName->setCurrentText(serial4Port);
     //ui->httpWebInPort ->setValue(httpWebPort);
 
     qDebug("Port local OSC par défaut : %d", defaultUdpPort);
@@ -163,7 +181,10 @@ void MainWindow::readSettings() {
     udp       ->setPort(udpPort);
     http      ->setPort(httpPort);
     webSockets->setPort(websocketsPort);
-    serial    ->setPort(serialPort);
+    serial1   ->setPort(serial1Port);
+    serial2   ->setPort(serial2Port);
+    serial3   ->setPort(serial3Port);
+    serial4   ->setPort(serial4Port);
     //httpWebI->setPort(httpWebPort);
 
     guiIsChanging = false;
@@ -175,14 +196,17 @@ void MainWindow::saveSettings() {
         settings.setValue("port_httpPort",       ui->httpInPort->value());
         settings.setValue("port_websocketsPort", ui->httpWebSockets->value());
         settings.setValue("port_defaultUdpPort", ui->defaultUdpPort->value());
-        settings.setValue("port_serialPort",     ui->serialPortName->currentText());
+        settings.setValue("port_serial1Port",    ui->serial1PortName->currentText());
+        settings.setValue("port_serial2Port",    ui->serial2PortName->currentText());
+        settings.setValue("port_serial3Port",    ui->serial3PortName->currentText());
+        settings.setValue("port_serial4Port",    ui->serial4PortName->currentText());
         //settings.setValue("port_httpWebPort",    ui->httpWebInPort->value());
         readSettings();
     }
 }
 
 void MainWindow::action() {
-    if((sender() == ui->oscInPort) || (sender() == ui->httpInPort) || (sender() == ui->httpWebSockets) || (sender() == ui->serialPortName))
+    if((sender() == ui->oscInPort) || (sender() == ui->httpInPort) || (sender() == ui->httpWebSockets) || (sender() == ui->serial1PortName) || (sender() == ui->serial2PortName) || (sender() == ui->serial3PortName) || (sender() == ui->serial4PortName))
         saveSettings();
     else if(sender() == ui->httpSample)
         QDesktopServices::openUrl(QUrl(QString("http://127.0.0.1:%1/?protocol=/osc&ip=127.0.0.1&port=%2&destination=/http&valeur1=123&valeur2=Text&valeur3=456").arg(ui->httpInPort->value()).arg(defaultUdpPort)));

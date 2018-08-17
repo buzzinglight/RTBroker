@@ -36,7 +36,7 @@ void Serial::timerEvent(QTimerEvent *) {
             serialPort->close();
     }
     else
-        setPort(serialPort->portName());
+        setPort(lastPortName);
 }
 
 QStringList Serial::getPorts() {
@@ -57,22 +57,25 @@ void Serial::setPort(const QString &portName) {
     if(serialPort->isOpen()) {
         qDebug("Fermeture de Serial sur %s:%d", qPrintable(serialPort->portName()), serialPort->baudRate());
         serialPort->close();
+        lastPortName = "";
     }
 
-    BaudRateType serialBaudRate = BAUD115200;
-
-    serialPort->setPortName(portName);
-    serialPort->setFlowControl(FLOW_OFF);
-    serialPort->setParity(PAR_NONE);
-    serialPort->setDataBits(DATA_8);
-    serialPort->setStopBits(STOP_1);
-    serialPort->setBaudRate(serialBaudRate);
-    if(serialPort->open(QIODevice::ReadWrite)) {
-        setUiFeedback(true);
-        qDebug("Ouverture Serial sur %s:%d", qPrintable(serialPort->portName()), serialPort->baudRate());
+    if(!portName.isEmpty()) {
+        BaudRateType serialBaudRate = BAUD115200;
+        serialPort->setPortName(portName);
+        serialPort->setFlowControl(FLOW_OFF);
+        serialPort->setParity(PAR_NONE);
+        serialPort->setDataBits(DATA_8);
+        serialPort->setStopBits(STOP_1);
+        serialPort->setBaudRate(serialBaudRate);
+        if(serialPort->open(QIODevice::ReadWrite)) {
+            setUiFeedback(true);
+            lastPortName = portName;
+            qDebug("Ouverture Serial sur %s:%d", qPrintable(serialPort->portName()), serialPort->baudRate());
+        }
+        else
+            qDebug("Echec de l'ouverture de Serial %s:%d : %s", qPrintable(serialPort->portName()), serialPort->baudRate(), qPrintable(serialPort->errorString()));
     }
-    else
-        qDebug("Echec de l'ouverture de Serial %s:%d : %s", qPrintable(serialPort->portName()), serialPort->baudRate(), qPrintable(serialPort->errorString()));
 }
 
 void Serial::parseSerial() {

@@ -39,6 +39,7 @@ private:
 private:
     QextSerialPort *serialPort;
     QByteArray      reception;
+    QString         lastPortName;
 
 public:
     explicit Serial(QWidget *_uiFeedback, QObject *parent = 0);

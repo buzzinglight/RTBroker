@@ -52,7 +52,7 @@ protected:
 
 public:
     //Generic interface to send a message through the interface
-    virtual QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void *sender = 0) = 0;
+    virtual QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void *sender = nullptr) = 0;
 
 public:
     //Sets the port name or number
@@ -71,13 +71,13 @@ public:
     SenderInterface *udp;
     SenderInterface *http;
     SenderInterface *webSockets;
-    SenderInterface *serial;
+    SenderInterface *serial1, *serial2, *serial3, *serial4;
 
 public:
     //Dispatch a message on different interfaces
-    const QString dispatch(const QString &message, const QVariantList &defautProtocol, void *sender = 0);
-    const QString dispatch(const QStringList &message, const QVariantList &defautProtocol, void *sender = 0);
-    const QString dispatch(QVariantList message, const QVariantList &defautProtocol, void *sender = 0);
+    const QString dispatch(const QString &message, const QVariantList &defautProtocol, void *sender = nullptr);
+    const QString dispatch(const QStringList &message, const QVariantList &defautProtocol, void *sender = nullptr);
+    const QString dispatch(QVariantList message, const QVariantList &defautProtocol, void *sender = nullptr);
 
 public:
     //Default values to be shared
