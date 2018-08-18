@@ -108,6 +108,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Ouverture des interfaces réseau
     udp  = new Udp(ui->oscInPort, this);
     connect((Udp*)udp,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    tcp  = new Tcp(ui->tcpInPort, this);
+    connect((Tcp*)tcp,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
     http = new InterfaceHttp(ui->httpInPort, this);
     connect((InterfaceHttp*)http,    SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
     webSockets = new WebSockets(ui->httpWebSockets, this);
@@ -164,9 +166,11 @@ void MainWindow::readSettings() {
     QString serial3Port    = settings.value("port_serial3Port",    "").toString();
     QString serial4Port    = settings.value("port_serial4Port",    "").toString();
     quint16 udpPort        = settings.value("port_udpPort",        4001).toInt();
+    quint16 tcpPort        = settings.value("port_tcpPort",        4001).toInt();
     defaultUdpPort         = settings.value("port_defaultUdpPort", 57130).toInt();
     //quint16 httpWebPort  = ui->httpWebInPort->value();//settings.value("port_httpWebPort", MainWindowInterface::defaultHttpPort).toInt();
     ui->oscInPort     ->setValue(udpPort);
+    ui->tcpInPort     ->setValue(tcpPort);
     ui->defaultUdpPort->setValue(defaultUdpPort);
     ui->httpInPort    ->setValue(httpPort);
     ui->httpWebSockets->setValue(websocketsPort);
@@ -179,6 +183,7 @@ void MainWindow::readSettings() {
     qDebug("Port local OSC par défaut : %d", defaultUdpPort);
 
     udp       ->setPort(udpPort);
+    tcp       ->setPort(tcpPort);
     http      ->setPort(httpPort);
     webSockets->setPort(websocketsPort);
     serial1   ->setPort(serial1Port);
@@ -193,6 +198,7 @@ void MainWindow::saveSettings() {
     if(!guiIsChanging) {
         QSettings settings;
         settings.setValue("port_udpPort",        ui->oscInPort->value());
+        settings.setValue("port_tcpPort",        ui->tcpInPort->value());
         settings.setValue("port_httpPort",       ui->httpInPort->value());
         settings.setValue("port_websocketsPort", ui->httpWebSockets->value());
         settings.setValue("port_defaultUdpPort", ui->defaultUdpPort->value());

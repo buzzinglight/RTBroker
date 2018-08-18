@@ -35,6 +35,7 @@
 #include "http/http.h"
 #include "interfacehttp.h"
 #include "udp.h"
+#include "tcp.h"
 #include "serial.h"
 #include "websockets.h"
 
@@ -46,7 +47,7 @@ class MainWindow : public QWidget, public MainWindowInterface {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 public:

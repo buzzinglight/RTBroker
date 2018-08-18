@@ -69,6 +69,7 @@ public:
 public:
     //Network interfaces
     SenderInterface *udp;
+    SenderInterface *tcp;
     SenderInterface *http;
     SenderInterface *webSockets;
     SenderInterface *serial1, *serial2, *serial3, *serial4;

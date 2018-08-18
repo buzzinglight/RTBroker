@@ -68,7 +68,7 @@ const QString MainWindowInterface::dispatch(QVariantList message, const QVariant
             openWebpage();
         else if(protocol == "/rtbroker/openquit")
             openQuit();
-        else if((!protocol.contains("/osc")) && (!protocol.contains("/http")) && (!protocol.contains("/websockets")) && (!protocol.contains("/serial"))) {
+        else if((!protocol.contains("/osc")) && (!protocol.contains("/tcp")) && (!protocol.contains("/http")) && (!protocol.contains("/websockets")) && (!protocol.contains("/serial"))) {
             //Add procotol before
             message = QVariantList() << defautProtocol << message;
             protocol = message.first().toString();
@@ -84,7 +84,7 @@ const QString MainWindowInterface::dispatch(QVariantList message, const QVariant
         }
 
         //Send accord to desired protocol
-        if(((protocol.contains("/osc")) || (protocol.contains("/http"))) && (message.count() >= 3)) {
+        if(((protocol.contains("/osc")) || (protocol.contains("/tcp")) || (protocol.contains("/http"))) && (message.count() >= 3)) {
             QString ip      = message.first().toString();
             message.removeFirst();
             quint16 port    = message.first().toInt();
@@ -96,6 +96,8 @@ const QString MainWindowInterface::dispatch(QVariantList message, const QVariant
                 log += udp ->send(message, ip, port, destination);
             else if(protocol.contains("/http"))
                 log += http->send(message, ip, port, destination);
+            else if(protocol.contains("/tcp"))
+                log += tcp->send(message, ip, port, destination);
         }
         else if((protocol.contains("/websockets")) || (protocol.contains("/serial"))) {
             if(protocol.contains("/websockets"))
