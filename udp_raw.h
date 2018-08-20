@@ -20,25 +20,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QMainWindow>
-#include <QTextCodec>
-#include "singleapplication.h"
-#include "mainwindow.h"
+#ifndef UDP_RAW_H
+#define UDP_RAW_H
 
-int main(int argc, char *argv[]) {
-#ifdef QT4
-    QTextCodec::setCodecForTr      (QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForLocale  (QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-#endif
-    QCoreApplication::setApplicationName   ("Realtime Message Broker");
-    QCoreApplication::setApplicationVersion("1.4");
-    QCoreApplication::setOrganizationName  ("Buzzing Light");
-    QCoreApplication::setOrganizationDomain("buzzinglight");
+#include <QWidget>
+#include <QByteArray>
+#include <QUdpSocket>
+#include <QHash>
+#include <QDateTime>
+#include "global.h"
 
-    SingleApplication a(argc, argv);
-    a.setQuitOnLastWindowClosed(false);
-    MainWindow w;
-    
-    return a.exec();
-}
+class UdpRaw : public QObject, public SenderInterface {
+    Q_OBJECT
+
+private:
+    bool allowLog;
+    QUdpSocket *socket;
+
+public:
+    explicit UdpRaw(QWidget *_uiFeedback, QObject *parent = nullptr);
+
+public:
+    void setPort(quint16 port);
+
+public:
+    void open();
+    QString send(const QByteArray &message, const QString &ip = "", quint16 port = 0, void * = nullptr);
+
+signals:
+    void outgoingMessage(const QString &log);
+public slots:
+    void incomingMessage(const QString &, quint16, const QString &, const QVariantList &) {}
+private slots:
+    void socketReadyRead();
+};
+
+#endif // UDP_RAW_H

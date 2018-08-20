@@ -103,15 +103,10 @@ void Serial::parseSerial() {
     }
 }
 
-QString Serial::send(const QVariantList &valeurs, const QString &, quint16, const QString &destination, void *) {
-    QString message = destination + " ";
-    foreach(const QVariant &valeur, valeurs)
-        message += valeur.toString() + " ";
-    message = message.trimmed();
-
-    qint64 bytesSent = serialPort->write(qPrintable(message + "\n"));
+QString Serial::send(const QByteArray &message, const QString &, quint16, void *) {
+    qint64 bytesSent = serialPort->write(message + "\n");
     if(bytesSent < 0)
         qDebug("%s : %lld", qPrintable(serialPort->errorString()), bytesSent);
 
-    return QString("%1 (%2)\n").arg(message).arg(bytesSent);
+    return QString("%1 (%2)\n").arg(QString(message)).arg(bytesSent);
 }

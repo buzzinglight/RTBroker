@@ -68,37 +68,17 @@ void Tcp::socketError(QAbstractSocket::SocketError err) {
 void Tcp::socketReadyRead() {
     QTcpSocket *socket = (QTcpSocket*)sender();
     QString message = QString(socket->readAll());
-    qDebug("%s", qPrintable(message));
     MainWindowInterface::main->dispatch(message, QVariantList() << "/osc" << "127.0.0.1" << MainWindowInterface::defaultUdpPort);
 }
 
-QString Tcp::send(const QVariantList &valeurs, const QString &ip, quint16 port, const QString &destination, void *) {
-    QString message = destination + " ";
-    if(valeurs.count()) {
-        foreach(const QVariant &valeur, valeurs) {
-            QString valeurStr = valeur.toString();
-            if((valeur.type() == QVariant::String) && (valeurStr.contains(" ")))
-                message += "\'" + valeurStr + "\' ";
-            else
-                message += valeurStr + " ";
-        }
-    }
-    message = message.trimmed();
-
+QString Tcp::send(const QByteArray &message, const QString &ip, quint16 port, void *) {
     sendSocket->connectToHost(ip, port);
     sendSocket->waitForConnected(2000);
     sendSocket->write(qPrintable(message));
     sendSocket->disconnectFromHost();
     sendSocket->waitForDisconnected(2000);
 
-    QString retour = QString("%4: TCP sent on %3 (%1:%2): ").arg(ip).arg(port).arg(destination).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz"));
-    if(valeurs.count()) {
-        foreach(const QVariant &valeur, valeurs)
-            retour += valeur.toString() + " ";
-    }
-    else
-        retour += "no args";
-    return retour + "\n";
+    return QString("%3: TCP sent to %1:%2: %4\n").arg(ip).arg(port).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz")).arg(QString(message));
 }
 
 

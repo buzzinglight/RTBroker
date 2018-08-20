@@ -35,6 +35,7 @@
 #include "http/http.h"
 #include "interfacehttp.h"
 #include "udp.h"
+#include "udp_raw.h"
 #include "tcp.h"
 #include "serial.h"
 #include "websockets.h"

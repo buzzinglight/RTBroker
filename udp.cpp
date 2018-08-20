@@ -34,18 +34,18 @@ void Udp::setPort(quint16 port) {
         setUiFeedback(false);
 
         if((socket->isValid()) && (socket->localPort())) {
-            qDebug("Fermeture de UDP sur %d (%d)", socket->localPort(), socket->isValid());
+            qDebug("Fermeture de OSC sur %d (%d)", socket->localPort(), socket->isValid());
             socket->close();
         }
         if(socket->bind(port)) {
             setUiFeedback(true);
-            qDebug("Ouverture UDP sur %d", port);
+            qDebug("Ouverture OSC sur %d", port);
         }
         else
             qDebug("Echec de l'ouverture UDP sur %d", port);
     }
     else
-        qDebug("Port UDP déjà ouvert sur %d (%d)", socket->localPort(), socket->isValid());
+        qDebug("Port OSC déjà ouvert sur %d (%d)", socket->localPort(), socket->isValid());
 }
 
 void Udp::parseOSC() {

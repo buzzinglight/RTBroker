@@ -53,7 +53,7 @@ protected:
 
 public:
     void open();
-    QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void *sender = 0);
+    QString send(const QByteArray &message, const QString &ip = "", quint16 port = 0, void *sender = 0);
 
 signals:
     void outgoingMessage(const QString &log);

@@ -106,8 +106,10 @@ MainWindow::MainWindow(QWidget *parent) :
     tray->showMessage("Realtime Message Broker", QString("Services are ready!").arg(networkIp));
 
     //Ouverture des interfaces réseau
-    udp  = new Udp(ui->oscInPort, this);
-    connect((Udp*)udp,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    osc  = new Udp(ui->oscInPort, this);
+    connect((Udp*)osc,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
+    udp  = new UdpRaw(ui->udpInPort, this);
+    connect((UdpRaw*)udp,            SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
     tcp  = new Tcp(ui->tcpInPort, this);
     connect((Tcp*)tcp,               SIGNAL(outgoingMessage(QString)), SLOT(incomingMessage(QString)));
     http = new InterfaceHttp(ui->httpInPort, this);
@@ -165,11 +167,13 @@ void MainWindow::readSettings() {
     QString serial2Port    = settings.value("port_serial2Port",    "").toString();
     QString serial3Port    = settings.value("port_serial3Port",    "").toString();
     QString serial4Port    = settings.value("port_serial4Port",    "").toString();
-    quint16 udpPort        = settings.value("port_udpPort",        4001).toInt();
-    quint16 tcpPort        = settings.value("port_tcpPort",        4001).toInt();
+    quint16 oscPort        = settings.value("port_oscPort",        4001).toInt();
+    quint16 udpPort        = settings.value("port_udpPort",        4002).toInt();
+    quint16 tcpPort        = settings.value("port_tcpPort",        4002).toInt();
     defaultUdpPort         = settings.value("port_defaultUdpPort", 57130).toInt();
     //quint16 httpWebPort  = ui->httpWebInPort->value();//settings.value("port_httpWebPort", MainWindowInterface::defaultHttpPort).toInt();
-    ui->oscInPort     ->setValue(udpPort);
+    ui->oscInPort     ->setValue(oscPort);
+    ui->udpInPort     ->setValue(udpPort);
     ui->tcpInPort     ->setValue(tcpPort);
     ui->defaultUdpPort->setValue(defaultUdpPort);
     ui->httpInPort    ->setValue(httpPort);
@@ -182,6 +186,7 @@ void MainWindow::readSettings() {
 
     qDebug("Port local OSC par défaut : %d", defaultUdpPort);
 
+    osc       ->setPort(oscPort);
     udp       ->setPort(udpPort);
     tcp       ->setPort(tcpPort);
     http      ->setPort(httpPort);
@@ -197,8 +202,9 @@ void MainWindow::readSettings() {
 void MainWindow::saveSettings() {
     if(!guiIsChanging) {
         QSettings settings;
-        settings.setValue("port_udpPort",        ui->oscInPort->value());
+        settings.setValue("port_oscPort",        ui->oscInPort->value());
         settings.setValue("port_tcpPort",        ui->tcpInPort->value());
+        settings.setValue("port_udpPort",        ui->udpInPort->value());
         settings.setValue("port_httpPort",       ui->httpInPort->value());
         settings.setValue("port_websocketsPort", ui->httpWebSockets->value());
         settings.setValue("port_defaultUdpPort", ui->defaultUdpPort->value());
@@ -212,7 +218,7 @@ void MainWindow::saveSettings() {
 }
 
 void MainWindow::action() {
-    if((sender() == ui->oscInPort) || (sender() == ui->httpInPort) || (sender() == ui->httpWebSockets) || (sender() == ui->serial1PortName) || (sender() == ui->serial2PortName) || (sender() == ui->serial3PortName) || (sender() == ui->serial4PortName))
+    if((sender() == ui->oscInPort) || (sender() == ui->udpInPort) || (sender() == ui->tcpInPort) || (sender() == ui->httpInPort) || (sender() == ui->httpWebSockets) || (sender() == ui->serial1PortName) || (sender() == ui->serial2PortName) || (sender() == ui->serial3PortName) || (sender() == ui->serial4PortName))
         saveSettings();
     else if(sender() == ui->httpSample)
         QDesktopServices::openUrl(QUrl(QString("http://127.0.0.1:%1/?protocol=/osc&ip=127.0.0.1&port=%2&destination=/http&valeur1=123&valeur2=Text&valeur3=456").arg(ui->httpInPort->value()).arg(defaultUdpPort)));

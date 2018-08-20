@@ -14,8 +14,8 @@ SOURCES   += main.cpp
 RESOURCES += RTBroker.qrc
 
 #Interfaces
-SOURCES   += mainwindow.cpp interfacehttp.cpp serial.cpp udp.cpp  tcp.cpp  global.cpp
-HEADERS   += mainwindow.h   interfacehttp.h   serial.h   udp.h    tcp.h    global.h
+SOURCES   += mainwindow.cpp interfacehttp.cpp serial.cpp udp.cpp udp_raw.cpp tcp.cpp  global.cpp
+HEADERS   += mainwindow.h   interfacehttp.h   serial.h   udp.h   udp_raw.h   tcp.h    global.h
 FORMS     += mainwindow.ui
 
 #Websockets

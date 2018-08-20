@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>424</width>
-    <height>430</height>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,15 +22,8 @@
         <string>Ports</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="8" column="1" colspan="2">
-         <widget class="QComboBox" name="serial4PortName">
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="defaultUdpPort">
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="httpInPort">
           <property name="minimum">
            <number>1024</number>
           </property>
@@ -38,81 +31,7 @@
            <number>65535</number>
           </property>
           <property name="value">
-           <number>4001</number>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>see webapp.ini</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="httpWebSocketsLabel">
-          <property name="text">
-           <string>WebSockets</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="httpWebSockets">
-          <property name="minimum">
-           <number>1024</number>
-          </property>
-          <property name="maximum">
-           <number>65535</number>
-          </property>
-          <property name="value">
-           <number>5553</number>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="2">
-         <widget class="QPushButton" name="httpWebSample">
-          <property name="text">
-           <string>Open webpage</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="httpWebInPortLabel">
-          <property name="text">
-           <string>HTTP Web in port</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="httpInPortLabel">
-          <property name="text">
-           <string>HTTP in port</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="defaultUdpPortLabel">
-          <property name="text">
-           <string>Default OSC out port</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="httpSample">
-          <property name="text">
-           <string>Open example</string>
+           <number>5554</number>
           </property>
          </widget>
         </item>
@@ -129,27 +48,67 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="1" colspan="2">
-         <widget class="QComboBox" name="serial3PortName">
-          <property name="editable">
-           <bool>true</bool>
+        <item row="5" column="0">
+         <widget class="QLabel" name="defaultUdpPortLabel">
+          <property name="text">
+           <string>Default OSC out port</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="6" column="1" colspan="2">
+        <item row="7" column="1" colspan="2">
          <widget class="QComboBox" name="serial2PortName">
           <property name="editable">
            <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="serialPortLabel">
+        <item row="1" column="0">
+         <widget class="QLabel" name="httpInPortLabel">
           <property name="text">
-           <string>Serial Port</string>
+           <string>HTTP in port</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1" colspan="2">
+         <widget class="QComboBox" name="serial3PortName">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="tcpInPortLabel">
+          <property name="text">
+           <string>TCP in port</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1" colspan="2">
+         <widget class="QComboBox" name="serial1PortName">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="defaultUdpPort">
+          <property name="minimum">
+           <number>1024</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>4001</number>
           </property>
          </widget>
         </item>
@@ -163,23 +122,33 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="httpInPort">
-          <property name="minimum">
-           <number>1024</number>
+        <item row="10" column="0">
+         <widget class="QLabel" name="httpWebInPortLabel">
+          <property name="text">
+           <string>HTTP Web in port</string>
           </property>
-          <property name="maximum">
-           <number>65535</number>
-          </property>
-          <property name="value">
-           <number>5554</number>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
-        <item row="5" column="1" colspan="2">
-         <widget class="QComboBox" name="serial1PortName">
-          <property name="editable">
-           <bool>true</bool>
+        <item row="0" column="0">
+         <widget class="QLabel" name="httpWebSocketsLabel">
+          <property name="text">
+           <string>WebSockets</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="serialPortLabel">
+          <property name="text">
+           <string>Serial Port</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -196,13 +165,67 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="tcpInPortLabel">
+        <item row="9" column="1" colspan="2">
+         <widget class="QComboBox" name="serial4PortName">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>TCP in port</string>
+           <string>see webapp.ini</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="2">
+         <widget class="QPushButton" name="httpWebSample">
+          <property name="text">
+           <string>Open webpage</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="httpWebSockets">
+          <property name="minimum">
+           <number>1024</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>5553</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="httpSample">
+          <property name="text">
+           <string>Open example</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="oscInPortLabel_2">
+          <property name="text">
+           <string>Raw UDP in port</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="udpInPort">
+          <property name="minimum">
+           <number>1024</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>4001</number>
           </property>
          </widget>
         </item>
@@ -347,7 +370,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>258</x>
-     <y>197</y>
+     <y>228</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>
@@ -363,7 +386,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>401</x>
-     <y>352</y>
+     <y>414</y>
     </hint>
     <hint type="destinationlabel">
      <x>423</x>
@@ -430,8 +453,24 @@
      <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>631</x>
+     <x>423</x>
      <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>udpInPort</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>action()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>205</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>555</x>
+     <y>202</y>
     </hint>
    </hints>
   </connection>

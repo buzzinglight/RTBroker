@@ -5,24 +5,12 @@ WebSockets::WebSockets(QWidget *_uiFeedback, QObject *parent) :
     connect(&webSocketServer, SIGNAL(newConnection()), SLOT(webSocketsNewConnection()));
 }
 
-QString WebSockets::send(const QVariantList &valeurs, const QString &, quint16, const QString &destination, void *sender) {
-    QString message = destination + " ";
-    if(valeurs.count()) {
-        foreach(const QVariant &valeur, valeurs) {
-            QString valeurStr = valeur.toString();
-            if((valeur.type() == QVariant::String) && (valeurStr.contains(" ")))
-                message += "\'" + valeurStr + "\' ";
-            else
-                message += valeurStr + " ";
-        }
-    }
-    message = message.trimmed();
-
+QString WebSockets::send(const QByteArray &message, const QString &, quint16, void *sender) {
     foreach(WebSocket *webSocket, webSocketClients)
         if(webSocket != sender)
             webSocket->send(message);
 
-    return QString("%1 à %2 websockets\n").arg(message).arg(webSocketClients.count());
+    return QString("%1 à %2 websockets\n").arg(QString(message)).arg(webSocketClients.count());
 }
 void WebSockets::setPort(quint16 port) {
     if(port != webSocketServer.serverPort()) {

@@ -52,7 +52,8 @@ protected:
 
 public:
     //Generic interface to send a message through the interface
-    virtual QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void *sender = nullptr) = 0;
+    virtual QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void *sender = nullptr) { return QString(); }
+    virtual QString send(const QByteArray &message, const QString &ip = "", quint16 port = 0, void *sender = nullptr) { return QString(); }
 
 public:
     //Sets the port name or number
@@ -68,6 +69,7 @@ public:
 
 public:
     //Network interfaces
+    SenderInterface *osc;
     SenderInterface *udp;
     SenderInterface *tcp;
     SenderInterface *http;
@@ -100,6 +102,9 @@ public:
 public:
     //Launch a bash command
     static QPair<QString,QString> launchCommand(const QString &command, const QStringList &arguments = QStringList(), qint32 waitForStarted = -1, qint32 waitForFinished = -1);
+    inline static QPair<QByteArray,QString> format(const QString &buffer) { return format(QByteArray(qPrintable(buffer))); }
+    static QPair<QByteArray,QString> format(const QByteArray &buffer);
+
 };
 
 #endif // GLOBAL_H

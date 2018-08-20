@@ -46,7 +46,7 @@ public:
 
 public:
     void open();
-    QString send(const QVariantList &valeurs, const QString &ip = "", quint16 port = 0, const QString &destination = "", void * = nullptr);
+    QString send(const QByteArray &message, const QString &ip = "", quint16 port = 0, void * = nullptr);
 
 signals:
     void outgoingMessage(const QString &log);
