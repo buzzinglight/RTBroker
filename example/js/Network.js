@@ -36,6 +36,7 @@ Network.prototype.connect = function(URI) {
          
         this.websocket.onmessage = function(evt) {
 			//Cleaning des messages
+			console.log(evt.data);
 			var message = evt.data.split(new RegExp(" +(?=(?:[^\']*\'[^\']*\')*[^\']*$)"));
 			for(var i = 0 ; i < message.length ; i++) {
 				if(message[i].indexOf("'") >= 0)

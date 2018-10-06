@@ -44,7 +44,7 @@ void Tcp::setPort(quint16 port) {
         }
         if(listen(QHostAddress::Any, port)) {
             setUiFeedback(true);
-            qDebug("Ouverture TCP sur %d", port);
+            qDebug("Ouverture TCP sur %d (%d)", port, isListening());
         }
         else
             qDebug("Echec de l'ouverture TCP sur %d", port);
@@ -67,7 +67,7 @@ void Tcp::socketError(QAbstractSocket::SocketError err) {
 }
 void Tcp::socketReadyRead() {
     QTcpSocket *socket = (QTcpSocket*)sender();
-    QString message = QString(socket->readAll());
+    QString message = QString(socket->readAll()).trimmed();
     MainWindowInterface::main->dispatch(message, QVariantList() << "/osc" << "127.0.0.1" << MainWindowInterface::defaultUdpPort);
 }
 

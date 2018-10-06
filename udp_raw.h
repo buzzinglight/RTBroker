@@ -36,6 +36,11 @@ class UdpRaw : public QObject, public SenderInterface {
 private:
     bool allowLog;
     QUdpSocket *socket;
+    char parsingBufferI[4096*32];
+    qint64  parsingBufferISize;
+    char    parsingAddressBuffer[255];
+    quint8  parsingArgumentsBuffer[255];
+    qint64  parsingIndexAddressBuffer, parsingIndexArgumentsBuffer;
 
 public:
     explicit UdpRaw(QWidget *_uiFeedback, QObject *parent = nullptr);

@@ -27,7 +27,6 @@ UdpRaw::UdpRaw(QWidget *_uiFeedback, QObject *parent) :
     allowLog = true;
 
     socket = new QUdpSocket(this);
-    socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
     connect(socket, SIGNAL(readyRead()), SLOT(socketReadyRead()));
 }
 
@@ -36,22 +35,23 @@ void UdpRaw::setPort(quint16 port) {
         setUiFeedback(false);
 
         if((socket->isValid()) && (socket->localPort())) {
-            qDebug("Fermeture de UDP sur %d (%d)", socket->localPort(), socket->isValid());
+            qDebug("Fermeture de UDP brut sur %d (%d)", socket->localPort(), socket->isValid());
             socket->close();
         }
         if(socket->bind(port)) {
             setUiFeedback(true);
-            qDebug("Ouverture UDP sur %d", port);
+            qDebug("Ouverture UDP brut sur %d (%d)", port, socket->isValid());
         }
         else
-            qDebug("Echec de l'ouverture TCP sur %d", port);
+            qDebug("Echec de l'ouverture UDP brut sur %d", port);
     }
     else
         qDebug("Port UDP brut déjà ouvert sur %d (%d)", socket->localPort(), socket->isValid());
 }
 
 void UdpRaw::socketReadyRead() {
-    QString message = QString(socket->readAll());
+    parsingBufferISize = socket->readDatagram(parsingBufferI, 4096*32);
+    QString message = QByteArray(parsingBufferI, parsingBufferISize).trimmed();
     MainWindowInterface::main->dispatch(message, QVariantList() << "/osc" << "127.0.0.1" << MainWindowInterface::defaultUdpPort);
 }
 

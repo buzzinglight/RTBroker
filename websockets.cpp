@@ -8,7 +8,7 @@ WebSockets::WebSockets(QWidget *_uiFeedback, QObject *parent) :
 QString WebSockets::send(const QByteArray &message, const QString &, quint16, void *sender) {
     foreach(WebSocket *webSocket, webSocketClients)
         if(webSocket != sender)
-            webSocket->send(message);
+            webSocket->send(QString(message));
 
     return QString("%1 à %2 websockets\n").arg(QString(message)).arg(webSocketClients.count());
 }
